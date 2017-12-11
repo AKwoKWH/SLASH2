@@ -18,7 +18,7 @@ export class ListPage {
 
   userList;
   userListFilter;
-  searchUserForm = {};
+  searchUserForm = {gender: 'Male'};
 
 
   constructor(
