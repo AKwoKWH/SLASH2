@@ -25,7 +25,7 @@ const firebaseConfig = {
     projectId: "fifthvega",
     storageBucket: "fifthvega.appspot.com",
     messagingSenderId: "233496995898"
-};
+}
 
 @NgModule({
   declarations: [
@@ -60,4 +60,5 @@ const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
+
 export class AppModule {}
