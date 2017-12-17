@@ -46,7 +46,8 @@ export class ProfilePage {
           CUHK: this.userInfoFormArray.education.indexOf("CUHK")>-1,
           HKUST: this.userInfoFormArray.education.indexOf("HKUST")>-1,
           HKIED: this.userInfoFormArray.education.indexOf("HKIED")>-1,
-          Oversea: this.userInfoFormArray.education.indexOf("Oversea")>-1
+          Oversea: this.userInfoFormArray.education.indexOf("Oversea")>-1,
+          Others: this.userInfoFormArray.education.indexOf("Others")>-1
         }  
 
         const formatExpertArea = {
@@ -75,7 +76,7 @@ export class ProfilePage {
         const userData = this.userInfoForm
         this.afDB.collection("users").doc(user.uid).update(userData)
         this.afDB.collection("users").doc(user.uid).update(userDataFormat)
-        console.log('Profile updated: ', userData)
+        console.log('Profile updated: ', userData, userDataFormat)
       }else{
         console.log('Not Signed in')
       }

@@ -64,6 +64,25 @@ export class ListPage {
       SunNN: Math.random() >= 0.5,
       SunPM: Math.random() >= 0.5,
     }    
+    var UserEducation = {
+      HKU: Math.random() >= 0.5,
+      CUHK: Math.random() >= 0.5,
+      HKUST: Math.random() >= 0.5,
+      HKIED: Math.random() >= 0.5,
+      Oversea: Math.random() >= 0.5,
+      Others:  Math.random() >= 0.5
+    }  
+    var userExpertArea = {
+      Chinese: Math.random() >= 0.5,
+      English: Math.random() >= 0.5,
+      Mathematics: Math.random() >= 0.5,
+      Physics: Math.random() >= 0.5,
+      Chemistry: Math.random() >= 0.5,
+      Biology: Math.random() >= 0.5,
+      GeneralEducation: Math.random() >= 0.5,
+      AllSubjects: Math.random() >= 0.5
+    }   
+
     if (RandPhoneNumber % 2 == 1) {var RandGender = 'Male'}
     else {var RandGender = 'Female'}
 
@@ -73,7 +92,8 @@ export class ListPage {
         selfDescription: "This is a auto-gen test user " + RandPhoneNumber,
         userName: TestName,
         gender: RandGender,
-        avaliablity: UserAvaliablity
+        expertArea: userExpertArea,
+        education: UserEducation
     }
     console.log(userData)
     this.afDB.collection("users").doc(pushkey).set(userData)

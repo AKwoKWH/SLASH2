@@ -82,12 +82,12 @@
 
       <ion-item>
         <ion-label>Request Pay</ion-label>
-        <ion-input type="number" [(ngModel)]="userInfoForm.minPay" name="minPay" placeholder="{{ (currentUserInfo | async)?.minPay }}"></ion-input>
+        <ion-input type="number" [(ngModel)]="userInfoForm.requestPay" name="requestPay" placeholder="{{(currentUserInfo|async)?.requestPay}}"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Description</ion-label>
-        <ion-textarea [(ngModel)]="userInfoForm.selfDescription" name="description" placeholder="{{ (currentUserInfo | async)?.selfDescription }}"></ion-textarea>
+        <ion-textarea [(ngModel)]="userInfoForm.selfDescription" name="description" placeholder="{{(currentUserInfo|async)?.selfDescription}}"></ion-textarea>
       </ion-item>
 
 
