@@ -38,10 +38,13 @@
 
       <ion-item>
         <ion-label>Education</ion-label>
-        <ion-select [(ngModel)]="userInfoForm.education" multiple="true">
-          <ion-option selected=ture>HKU</ion-option>
-          <ion-option selected=false>CUHK</ion-option>
-          <ion-option>HKUST</ion-option>
+        <ion-select [(ngModel)]="userInfoFormArray.education" multiple="true">
+          <ion-option [selected]='true'>HKU</ion-option>
+          <ion-option [selected]='true'>CUHK</ion-option>
+          <ion-option [selected]='true'>HKUST</ion-option>
+          <ion-option [selected]='true'>HKIED</ion-option>
+          <ion-option [selected]='true'>Oversea</ion-option>
+          <ion-option [selected]='true'>Others</ion-option>
         </ion-select>
       </ion-item>      
 
@@ -56,10 +59,14 @@
 
       <ion-item>
         <ion-label>Expertise Areas</ion-label>
-        <ion-select [(ngModel)]="userInfoForm.expert" multiple="true">
-          <ion-option selected>Chinese</ion-option>
+        <ion-select [(ngModel)]="userInfoFormArray.expertArea" multiple="true">
+          <ion-option>Chinese</ion-option>
           <ion-option>English</ion-option>
-          <ion-option>Math</ion-option>
+          <ion-option>Mathematics</ion-option>
+          <ion-option>Physics</ion-option>
+          <ion-option>Chemistry</ion-option>
+          <ion-option>General Education</ion-option>
+          <ion-option>All Subjects</ion-option>          
         </ion-select>
       </ion-item>      
 

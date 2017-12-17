@@ -47,9 +47,11 @@ export class LoginPage {
   SigninWithMoblie(PhoneNumber){
   const appVerifier = this.recaptchaVerifier;
   const phoneNumberString = "+852" + PhoneNumber;
+  console.log("SIGNIN: ", PhoneNumber)
 
   firebase.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
     .then( confirmationResult => {
+      console.log("SMS sent", phoneNumberString)
       // SMS sent. Prompt user to type the code from the message, then sign the
       // user in with confirmationResult.confirm(code).
       let prompt = this.alertCtrl.create({

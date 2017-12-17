@@ -14,8 +14,13 @@
   </ion-item>
 
   <button ion-button id="sign-in-button" (click)="SigninWithMoblie(phoneNumber)">
-    Sign In
+    Sign In with your Phone Number
   </button>
+
+  <button ion-button id="fb-sign-in-button" (click)="SigninWithFacebook()">
+    Sign In Wtih Facebook
+  </button>
+
   </span>
 
   <div id="recaptcha-container"></div>
@@ -26,5 +31,7 @@
     <div>SIGNED IN AS BELOW:<br></div>
     {{currentUser|json}}
   </span>
+
+
 
 </ion-content>
