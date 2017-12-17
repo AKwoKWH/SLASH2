@@ -18,7 +18,11 @@ export class ListPage {
 
   userList;
   userListFilter;
-  searchUserForm = {gender: 'Male'};
+  searchUserForm = {
+    gender: 'Male',
+    subject: 'Chinese'
+  };
+
 
 
   constructor(
@@ -28,14 +32,27 @@ export class ListPage {
   ) {} 
   
   GetUserList(){  
+
+    const searchSubjectChinese = {operator: '==', value: true}
+
+
       this.userList = this.afDB.collection('users').valueChanges()
       console.log(this.afDB.collection('users').valueChanges())
 
-      this.userListFilter = this.afDB.collection('users', ref => {        
-        return ref.where('gender', '==', this.searchUserForm.gender);
-        // return ref.orderBy('gender').startAt(this.searchUserForm.gender).endAt(this.searchUserForm.gender);
+      this.userListFilter = this.afDB.collection('users', ref => {
+        return ref.where('gender', '==', this.searchUserForm.gender)
+                  .where('education.HKU', '==', true)
+                  .where('expertArea.Chinese', '==', this.searchUserForm.subject == 'Chinese')
+                  // .where('requestPay', '>',0)
+        // return ref.where('gender', '==', this.searchUserForm.gender)
+                  // .where('gender', '==', this.searchUserForm.gender)
       }).valueChanges();
   }
+
+// 0: false
+// 1: true
+// >=1 : true
+// >=0 : any
 
   UploadTestData(){
     var pushkey = this.afDB.createId();
