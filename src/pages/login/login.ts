@@ -101,7 +101,8 @@ export class LoginPage {
     this.afAuth.authState.subscribe(user => {
       const userData = {
         phonenumber: user.phoneNumber,
-        userID: user.uid
+        userID: user.uid,
+        dummy: true
       }
       this.afDB.collection('users').doc(user.uid).valueChanges().subscribe(userInfo => {
         if (userInfo==null){

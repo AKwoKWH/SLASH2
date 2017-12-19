@@ -19,8 +19,9 @@ export class ListPage {
   userList;
   userListFilter;
   searchUserForm = {
-    gender: 'Male',
-    subject: 'Chinese'
+    gender: ['All'],
+    subject: ['Chinese'],
+    education: []
   };
 
 
@@ -33,26 +34,43 @@ export class ListPage {
   
   GetUserList(){  
 
-    const searchSubjectChinese = {operator: '==', value: true}
+    // var educationsubject = ['HKU','CUHK', 'HKUST', 'HKIED']
+    // for (var i = 0, len = educationsubject.length; i < len; i++) {
+    //   if (this.searchUserForm.education.indexOf(educationsubject[i])>-1){
+    //     const formEduaction = 'education.' + educationsubject[i]
+    //   } else {
+    //     const formEduaction = 'dummy'        
+    //     // this['formEduaction' + educationsubject[i]] = 'dummy'      
+    //   }
+    // }
 
+    if (this.searchUserForm.gender!='All'){
+      const formGender = 'gender.' + this.searchUserForm.gender
+    } else {
+      const formGender = 'dummy'
+    }
 
-      this.userList = this.afDB.collection('users').valueChanges()
-      console.log(this.afDB.collection('users').valueChanges())
+    const formSubject = 'expertArea.' + this.searchUserForm.subject
+  
+    console.log(formGender,
+    //             this.formEduactionHKU,
+    //             this.formEduactionCUHK,
+    //             this.formEduactionHKUST,
+    //             this.formEduactionHKIED,
+                formSubject)
 
-      this.userListFilter = this.afDB.collection('users', ref => {
-        return ref.where('gender', '==', this.searchUserForm.gender)
-                  .where('education.HKU', '==', true)
-                  .where('expertArea.Chinese', '==', this.searchUserForm.subject == 'Chinese')
-                  // .where('requestPay', '>',0)
-        // return ref.where('gender', '==', this.searchUserForm.gender)
-                  // .where('gender', '==', this.searchUserForm.gender)
+    // this.userListFilter = this.afDB.collection('users', ref => {
+    //   return ref.where(formGender, '==', true)
+    //             .where(this.formEduactionHKU, '==', true)
+    //             .where(formSubject, '==', true)
+    //   }).valueChanges();
+
+    this.userListFilter = this.afDB.collection('users', ref => {
+      return ref.where(formGender, '==', true)
+                .where(formSubject, '==', true)
       }).valueChanges();
   }
 
-// 0: false
-// 1: true
-// >=1 : true
-// >=0 : any
 
   UploadTestData(){
     var pushkey = this.afDB.createId();
@@ -99,18 +117,22 @@ export class ListPage {
       GeneralEducation: Math.random() >= 0.5,
       AllSubjects: Math.random() >= 0.5
     }   
-
-    if (RandPhoneNumber % 2 == 1) {var RandGender = 'Male'}
-    else {var RandGender = 'Female'}
+    var userGender = {
+      Male: RandPhoneNumber % 2 == 1,
+      Female: RandPhoneNumber % 2 != 1,
+      All: true
+    }   
 
     const userData = {
         phonenumber: RandPhoneNumber,
         userID: pushkey,
         selfDescription: "This is a auto-gen test user " + RandPhoneNumber,
         userName: TestName,
-        gender: RandGender,
+        gender: userGender,
         expertArea: userExpertArea,
-        education: UserEducation
+        education: UserEducation,
+        avaliablity: UserAvaliablity,
+        dummy: true
     }
     console.log(userData)
     this.afDB.collection("users").doc(pushkey).set(userData)

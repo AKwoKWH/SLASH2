@@ -16,8 +16,9 @@ export class ProfilePage {
   currentUserInfo;
   userInfoForm = {};
   userInfoFormArray = {
-    education: {},
-    expertArea: {}
+    education: [],
+    expertArea: [],
+    gender:[]
   }; 
 
   constructor(
@@ -61,6 +62,12 @@ export class ProfilePage {
           AllSubjects: this.userInfoFormArray.expertArea.indexOf("All Subjects")>-1,
         }  
 
+        const formatGender = {
+          Male: this.userInfoFormArray.gender.indexOf("Male")>-1,
+          Female: this.userInfoFormArray.gender.indexOf("Female")>-1,
+          All: true,
+        }  
+
         const formatExpLevel = {
           Primany: true,
           SecondaryJunior: false,
@@ -71,6 +78,7 @@ export class ProfilePage {
           education: formatEducation,
           expertArea: formatExpertArea,
           expertLevel: formatExpLevel,
+          gender: formatGender
         }
 
         const userData = this.userInfoForm

@@ -30,8 +30,8 @@
 
       <ion-item>
         <ion-label>Gender</ion-label>
-        <ion-select [(ngModel)]="userInfoForm.gender" multiple="false">
-          <ion-option [selected]='("Male"=="Male")'>Male</ion-option>
+        <ion-select [(ngModel)]="userInfoFormArray.gender" multiple="false">
+          <ion-option selected>Male</ion-option>
           <ion-option [selected]='("Male"=="Female")'>Female</ion-option>
         </ion-select>
       </ion-item> 
@@ -39,7 +39,7 @@
       <ion-item>
         <ion-label>Education</ion-label>
         <ion-select [(ngModel)]="userInfoFormArray.education" multiple="true">
-          <ion-option [selected]='true'>HKU</ion-option>
+          <ion-option [selected]=true>HKU</ion-option>
           <ion-option [selected]='true'>CUHK</ion-option>
           <ion-option [selected]='true'>HKUST</ion-option>
           <ion-option [selected]='true'>HKIED</ion-option>
