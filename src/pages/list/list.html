@@ -63,6 +63,11 @@
       </ion-item>         
 
       <ion-item>
+        <ion-label>Frequency</ion-label>
+        <ion-input type="number" [(ngModel)]="searchUserForm.frequency"></ion-input>
+      </ion-item>
+
+      <ion-item>
         <ion-label>Start From</ion-label>
         <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="today"></ion-datetime>
       </ion-item>
@@ -71,6 +76,32 @@
         <ion-label>Start Time</ion-label>
         <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="today"></ion-datetime>
       </ion-item>
+
+      <span *ngIf="searchUserForm.frequency>1">
+      <br>2nd
+      <ion-item>
+        <ion-label>Start From</ion-label>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="today"></ion-datetime>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>Start Time</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="today"></ion-datetime>
+      </ion-item>
+      </span>
+
+      <span *ngIf="searchUserForm.frequency>2">
+      <br>3rd
+      <ion-item>
+        <ion-label>Start From</ion-label>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="today"></ion-datetime>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>Start Time</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="today"></ion-datetime>
+      </ion-item>
+      </span>
 
     <button ion-button (click)="GetUserList()">Get Filtered User Profile in Database</button>
 

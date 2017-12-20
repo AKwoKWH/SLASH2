@@ -17,7 +17,7 @@ export class ProfilePage {
     education: {Summary:null},
     expertArea: {Summary:null},
     degree: {Summary:null},
-    level:{Summary:null},
+    expertLevel:{Summary:null},
     requestPay: null,
     userName: null,
     selfDescription: null,
@@ -36,7 +36,7 @@ export class ProfilePage {
           education: {Summary:this.currentUserInfo.education.Summary},
           expertArea: {Summary:this.currentUserInfo.expertArea.Summary},
           degree: {Summary:this.currentUserInfo.degree.Summary},
-          level:{Summary:this.currentUserInfo.level.Summary},
+          expertLevel:{Summary:this.currentUserInfo.level.Summary},
           requestPay: this.currentUserInfo.requestPay,
           userName: this.currentUserInfo.userName,
           selfDescription: null,
@@ -45,6 +45,14 @@ export class ProfilePage {
       })
     }) 
 
+  }
+
+  GetUserProfile(){
+    this.afAuth.authState.subscribe(user => {
+      this.afDB.collection('users').doc(user.uid).valueChanges().subscribe( userInfo =>{
+        this.currentUserInfo = userInfo
+      })
+    })    
   }
 
   logForm() {
@@ -81,11 +89,11 @@ export class ProfilePage {
         }  
 
         const formatExpLevel = {
-          Summary: this.userInfoForm.level.Summary,
-          Primany: this.userInfoForm.level.Summary.indexOf("Primany")>-1,
-          SecondaryJunior: this.userInfoForm.level.Summary.indexOf("SecondaryJunior")>-1,
-          SecondarySenior: this.userInfoForm.level.Summary.indexOf("SecondarySenior")>-1,
-          University: this.userInfoForm.level.Summary.indexOf("University")>-1,
+          Summary: this.userInfoForm.expertLevel.Summary,
+          Primany: this.userInfoForm.expertLevel.Summary.indexOf("Primany School")>-1,
+          SecondaryJunior: this.userInfoForm.expertLevel.Summary.indexOf("Junior Secondary School")>-1,
+          SecondarySenior: this.userInfoForm.expertLevel.Summary.indexOf("Senior Secondary School")>-1,
+          University: this.userInfoForm.expertLevel.Summary.indexOf("University")>-1,
         }  
 
         const userDataFormat = {
@@ -99,7 +107,7 @@ export class ProfilePage {
         this.afDB.collection("users").doc(user.uid).update(userData)
         this.afDB.collection("users").doc(user.uid).update(userDataFormat)
         console.log('Profile updated: ', userData, userDataFormat)
-
+        this.GetUserProfile
       }else{
         console.log('Not Signed in')
       }

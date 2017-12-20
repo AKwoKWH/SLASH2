@@ -21,7 +21,8 @@ export class ListPage {
   searchUserForm = {
     gender: ['All'],
     subject: ['Chinese'],
-    education: []
+    education: [],
+    level: []
   };
 
 
@@ -44,6 +45,8 @@ export class ListPage {
     //   }
     // }
 
+    const formGender = 'dummy'
+
     if (this.searchUserForm.gender!='All'){
       const formGender = 'gender.' + this.searchUserForm.gender
     } else {
@@ -51,13 +54,9 @@ export class ListPage {
     }
 
     const formSubject = 'expertArea.' + this.searchUserForm.subject
+    const formLevel = 'expertLevel.' + this.searchUserForm.level
   
-    console.log(formGender,
-    //             this.formEduactionHKU,
-    //             this.formEduactionCUHK,
-    //             this.formEduactionHKUST,
-    //             this.formEduactionHKIED,
-                formSubject)
+    console.log(formGender,formLevel,formSubject)
 
     // this.userListFilter = this.afDB.collection('users', ref => {
     //   return ref.where(formGender, '==', true)
@@ -68,6 +67,7 @@ export class ListPage {
     this.userListFilter = this.afDB.collection('users', ref => {
       return ref.where(formGender, '==', true)
                 .where(formSubject, '==', true)
+                .where(formLevel, '==', true)
       }).valueChanges();
   }
   
@@ -117,6 +117,14 @@ export class ListPage {
       GeneralEducation: Math.random() >= 0.5,
       AllSubjects: Math.random() >= 0.5
     }   
+
+    const userExpLevel = {
+      Primany: Math.random() >= 0.5,
+      SecondaryJunior: Math.random() >= 0.5,
+      SecondarySenior: Math.random() >= 0.5,
+      University: Math.random() >= 0.5,
+    }  
+
     var userGender = {
       Male: RandPhoneNumber % 2 == 1,
       Female: RandPhoneNumber % 2 != 1,
@@ -132,6 +140,7 @@ export class ListPage {
         expertArea: userExpertArea,
         education: UserEducation,
         avaliablity: UserAvaliablity,
+        expertLevel: userExpLevel,
         dummy: true
     }
     console.log(userData)
