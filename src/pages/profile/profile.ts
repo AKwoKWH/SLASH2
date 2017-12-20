@@ -12,13 +12,16 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ProfilePage {
 
-  // userInfo;
   currentUserInfo;
-  userInfoForm = {};
-  userInfoFormArray = {
-    education: [],
-    expertArea: [],
-    gender:[]
+  userInfoForm = {
+    education: {Summary:null},
+    expertArea: {Summary:null},
+    degree: {Summary:null},
+    level:{Summary:null},
+    requestPay: null,
+    userName: null,
+    selfDescription: null,
+    gender:{Summary:null}
   }; 
 
   constructor(
@@ -27,15 +30,21 @@ export class ProfilePage {
     public afAuth: AngularFireAuth
   ) {
     this.afAuth.authState.subscribe(user => {
-      this.currentUserInfo = this.afDB.collection('users').doc(user.uid).valueChanges()
+      this.afDB.collection('users').doc(user.uid).valueChanges().subscribe( userInfo =>{
+        this.currentUserInfo = userInfo
+        this.userInfoForm = {
+          education: {Summary:this.currentUserInfo.education.Summary},
+          expertArea: {Summary:this.currentUserInfo.expertArea.Summary},
+          degree: {Summary:this.currentUserInfo.degree.Summary},
+          level:{Summary:this.currentUserInfo.level.Summary},
+          requestPay: this.currentUserInfo.requestPay,
+          userName: this.currentUserInfo.userName,
+          selfDescription: null,
+          gender:{Summary:this.currentUserInfo.gender.Summary},
+       }; 
+      })
     }) 
-  }
 
-  GetUserProfile(){  
-    this.afAuth.authState.subscribe(user => {
-      // this.userInfo = this.afDB.collection('users').valueChanges()
-      this.currentUserInfo = this.afDB.collection('users').doc(user.uid).valueChanges()
-    })
   }
 
   logForm() {
@@ -43,35 +52,40 @@ export class ProfilePage {
       if (user!=null){
         
         const formatEducation = {
-          HKU: this.userInfoFormArray.education.indexOf("HKU")>-1,
-          CUHK: this.userInfoFormArray.education.indexOf("CUHK")>-1,
-          HKUST: this.userInfoFormArray.education.indexOf("HKUST")>-1,
-          HKIED: this.userInfoFormArray.education.indexOf("HKIED")>-1,
-          Oversea: this.userInfoFormArray.education.indexOf("Oversea")>-1,
-          Others: this.userInfoFormArray.education.indexOf("Others")>-1
+          Summary: this.userInfoForm.education.Summary, 
+          HKU: this.userInfoForm.education.Summary.indexOf("HKU")>-1,
+          CUHK: this.userInfoForm.education.Summary.indexOf("CUHK")>-1,
+          HKUST: this.userInfoForm.education.Summary.indexOf("HKUST")>-1,
+          HKIED: this.userInfoForm.education.Summary.indexOf("HKIED")>-1,
+          Oversea: this.userInfoForm.education.Summary.indexOf("Oversea")>-1,
+          Others: this.userInfoForm.education.Summary.indexOf("Others")>-1
         }  
 
         const formatExpertArea = {
-          Chinese: this.userInfoFormArray.expertArea.indexOf("Chinese")>-1,
-          English: this.userInfoFormArray.expertArea.indexOf("English")>-1,
-          Mathematics: this.userInfoFormArray.expertArea.indexOf("Mathematics")>-1,
-          Physics: this.userInfoFormArray.expertArea.indexOf("Physics")>-1,
-          Chemistry: this.userInfoFormArray.expertArea.indexOf("Chemistry")>-1,
-          Biology: this.userInfoFormArray.expertArea.indexOf("Biology")>-1,
-          GeneralEducation: this.userInfoFormArray.expertArea.indexOf("General Education")>-1,
-          AllSubjects: this.userInfoFormArray.expertArea.indexOf("All Subjects")>-1,
+          Summary: this.userInfoForm.expertArea.Summary,
+          Chinese: this.userInfoForm.expertArea.Summary.indexOf("Chinese")>-1,
+          English: this.userInfoForm.expertArea.Summary.indexOf("English")>-1,
+          Mathematics: this.userInfoForm.expertArea.Summary.indexOf("Mathematics")>-1,
+          Physics: this.userInfoForm.expertArea.Summary.indexOf("Physics")>-1,
+          Chemistry: this.userInfoForm.expertArea.Summary.indexOf("Chemistry")>-1,
+          Biology: this.userInfoForm.expertArea.Summary.indexOf("Biology")>-1,
+          GeneralEducation: this.userInfoForm.expertArea.Summary.indexOf("General Education")>-1,
+          AllSubjects: this.userInfoForm.expertArea.Summary.indexOf("All Subjects")>-1,
         }  
 
         const formatGender = {
-          Male: this.userInfoFormArray.gender.indexOf("Male")>-1,
-          Female: this.userInfoFormArray.gender.indexOf("Female")>-1,
+          Summary: this.userInfoForm.gender.Summary,
+          Male: this.userInfoForm.gender.Summary.indexOf("Male")>-1,
+          Female: this.userInfoForm.gender.Summary.indexOf("Female")>-1,
           All: true,
         }  
 
         const formatExpLevel = {
-          Primany: true,
-          SecondaryJunior: false,
-          SecondarySenior: true,
+          Summary: this.userInfoForm.level.Summary,
+          Primany: this.userInfoForm.level.Summary.indexOf("Primany")>-1,
+          SecondaryJunior: this.userInfoForm.level.Summary.indexOf("SecondaryJunior")>-1,
+          SecondarySenior: this.userInfoForm.level.Summary.indexOf("SecondarySenior")>-1,
+          University: this.userInfoForm.level.Summary.indexOf("University")>-1,
         }  
 
         const userDataFormat = {
@@ -85,6 +99,7 @@ export class ProfilePage {
         this.afDB.collection("users").doc(user.uid).update(userData)
         this.afDB.collection("users").doc(user.uid).update(userDataFormat)
         console.log('Profile updated: ', userData, userDataFormat)
+
       }else{
         console.log('Not Signed in')
       }

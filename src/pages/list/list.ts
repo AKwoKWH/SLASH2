@@ -70,7 +70,7 @@ export class ListPage {
                 .where(formSubject, '==', true)
       }).valueChanges();
   }
-
+  
 
   UploadTestData(){
     var pushkey = this.afDB.createId();

@@ -13,24 +13,31 @@
     <div>
     <br>Current User<br>
     <ion-list class="nopadding">
-      {{ (currentUserInfo | async)|json }}
+    <br>1
+    <br>{{currentUserInfo|json}}
+    <br>2
+    <br>{{(currentUserInfo)?.userName}}
+    <br>3
+    <br>{{(currentUserInfo)?.phonenumber}}
+
+
     </ion-list>
     </div>
  
       <div>=================</div>
     
       <ion-item>
-        <span>Phone Number: {{(currentUserInfo|async)?.phonenumber}}</span>
+        <span>Phone Number: {{(currentUserInfo)?.phonenumber}}</span>
       </ion-item>
 
       <ion-item>
         <ion-label>Name</ion-label>
-        <ion-input type="text" [(ngModel)]="userInfoForm.userName" name="title" placeholder="{{ (currentUserInfo | async)?.userName }}"></ion-input>
+        <ion-input type="text" [(ngModel)]="userInfoForm.userName" name="title"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Gender</ion-label>
-        <ion-select [(ngModel)]="userInfoFormArray.gender" multiple="false">
+        <ion-select [(ngModel)]="userInfoForm.gender.Summary" multiple="false">
           <ion-option selected>Male</ion-option>
           <ion-option [selected]='("Male"=="Female")'>Female</ion-option>
         </ion-select>
@@ -38,7 +45,7 @@
 
       <ion-item>
         <ion-label>Education</ion-label>
-        <ion-select [(ngModel)]="userInfoFormArray.education" multiple="true">
+        <ion-select [(ngModel)]="userInfoForm.education.Summary" multiple="true">
           <ion-option [selected]=true>HKU</ion-option>
           <ion-option [selected]='true'>CUHK</ion-option>
           <ion-option [selected]='true'>HKUST</ion-option>
@@ -50,7 +57,7 @@
 
       <ion-item>
         <ion-label>Education Level</ion-label>
-        <ion-select [(ngModel)]="userInfoForm.degree" multiple="false">
+        <ion-select [(ngModel)]="userInfoForm.degree.Summary" multiple="false">
           <ion-option selected>Bachelor</ion-option>
           <ion-option>Master</ion-option>
           <ion-option>Current Teacher</ion-option>
@@ -59,7 +66,7 @@
 
       <ion-item>
         <ion-label>Expertise Areas</ion-label>
-        <ion-select [(ngModel)]="userInfoFormArray.expertArea" multiple="true">
+        <ion-select [(ngModel)]="userInfoForm.expertArea.Summary" multiple="true">
           <ion-option>Chinese</ion-option>
           <ion-option>English</ion-option>
           <ion-option>Mathematics</ion-option>
@@ -72,7 +79,7 @@
 
       <ion-item>
         <ion-label>Expertise level</ion-label>
-        <ion-select [(ngModel)]="userInfoForm.level" multiple="true">
+        <ion-select [(ngModel)]="userInfoForm.level.Summary" multiple="true">
           <ion-option selected>Primary School</ion-option>
           <ion-option>Junior Secondary School</ion-option>
           <ion-option>Senior Secondary School</ion-option>
@@ -82,12 +89,12 @@
 
       <ion-item>
         <ion-label>Request Pay</ion-label>
-        <ion-input type="number" [(ngModel)]="userInfoForm.requestPay" name="requestPay" placeholder="{{(currentUserInfo|async)?.requestPay}}"></ion-input>
+        <ion-input type="number" [(ngModel)]="userInfoForm.requestPay" name="requestPay" placeholder=""></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Description</ion-label>
-        <ion-textarea [(ngModel)]="userInfoForm.selfDescription" name="description" placeholder="{{(currentUserInfo|async)?.selfDescription}}"></ion-textarea>
+        <ion-textarea [(ngModel)]="userInfoForm.selfDescription" name="description" placeholder=""></ion-textarea>
       </ion-item>
 
 
