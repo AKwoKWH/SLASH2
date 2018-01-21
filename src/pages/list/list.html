@@ -46,10 +46,10 @@
       <ion-item>
         <ion-label>Expertise level</ion-label>
         <ion-select [(ngModel)]="searchUserForm.level" multiple="false">
-          <ion-option selected>Primary School</ion-option>
-          <ion-option>Junior Secondary School</ion-option>
-          <ion-option>Senior Secondary School</ion-option>
-          <ion-option>University</ion-option>
+          <ion-option value='Primary'>Primary School</ion-option>
+          <ion-option value='SecondaryJunior'>Junior Secondary School</ion-option>
+          <ion-option value='SecondarySenior'>Senior Secondary School</ion-option>
+          <ion-option value='University'>University</ion-option>
         </ion-select>
       </ion-item> 
 
@@ -104,33 +104,30 @@
       </span>
 
     <button ion-button (click)="GetUserList()">Get Filtered User Profile in Database</button>
+    <button ion-button (click)="SubmitRequest()">SUBMIT</button>
 
     <div>
     <br>FILTER===================<br>
-    <!--<ion-list class="nopadding" *ngFor="let result of userListFilter| async">
-      {{result|json}}
-    </ion-list>-->
 
-    <ion-list class="nopadding" *ngFor="let result of userListFilter| async">
+
+    <ion-list class="nopadding" *ngFor="let result of userListFilterArray">
       <ion-card>
       {{result|json}}
       </ion-card>
     </ion-list>
 
-  <!--<ion-list class="nopadding" *ngFor="let result of userListFilter  | async ">
+  <ion-list class="nopadding" *ngFor="let result of userListFilter  | async ">
   <ion-item-sliding>
 
     <ion-item class="nopadding">
       <ion-thumbnail item-start>
-        <img src="assets/img/avatar-ts-woody.png" (click)="openModal()"/>
+        <img src="assets/img/avatar-ts-woody.png">
       </ion-thumbnail>
       <span>{{result.userName|json}}
-        <ion-badge right>{{result.education|json}}</ion-badge>
+        <ion-badge right>{{result.education.Summary|json}}</ion-badge>
         <ion-icon name="checkmark-circle" ></ion-icon>
       </span>
-      <p>Master of Math</p>
-      <p>AL: 2As 1Bs</p>
-      <p>80 hrs</p>
+      <br>
       <span>
         <ion-icon name="star"></ion-icon>
         <ion-icon name="star"></ion-icon>
@@ -141,22 +138,23 @@
       <div *ngIf="result.Preference == true" >SELECTED</div>
     </ion-item>
 
-    <ion-item-options side="left">
+    <!--<ion-item-options side="left">
       <button ion-button color="balanced"  (click)="SelectTutor(result.$key)">
         <ion-icon name="text"></ion-icon>
         SELECT
       </button>
-    </ion-item-options>
+    </ion-item-options>-->
     
     <ion-item-options side="right">
-      <button ion-button color="primary" (click)="LikeTutor()">
-        <ion-icon name="mail"></ion-icon>
+      <button ion-button color="primary">
+        <ion-icon name="like"></ion-icon>
         LIKE
       </button>
     </ion-item-options>
 
   </ion-item-sliding>
-</ion-list>-->
+
+</ion-list>
 
 
     </div>

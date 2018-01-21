@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AngularFirestoreDocument } from 'angularfire2/firestore';
@@ -12,7 +12,12 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ProfilePage {
 
-  currentUserInfo;
+  currentUserInfo = {
+    phonenumber: null,
+    photoURLCustom64: null,
+    photoURLCustom: null
+  };
+  isReadonlyForm = false;
   userInfoForm = {
     education: {Summary:null},
     expertArea: {Summary:null},
@@ -31,15 +36,17 @@ export class ProfilePage {
   ) {
     this.afAuth.authState.subscribe(user => {
       this.afDB.collection('users').doc(user.uid).valueChanges().subscribe( userInfo =>{
+        this.isReadonly(true);
         this.currentUserInfo = userInfo
+        console.log(this.currentUserInfo)
         this.userInfoForm = {
           education: {Summary:this.currentUserInfo.education.Summary},
           expertArea: {Summary:this.currentUserInfo.expertArea.Summary},
           degree: {Summary:this.currentUserInfo.degree.Summary},
-          expertLevel:{Summary:this.currentUserInfo.level.Summary},
+          expertLevel:{Summary:this.currentUserInfo.expertLevel.Summary},
           requestPay: this.currentUserInfo.requestPay,
           userName: this.currentUserInfo.userName,
-          selfDescription: null,
+          selfDescription: this.currentUserInfo.selfDescription,
           gender:{Summary:this.currentUserInfo.gender.Summary},
        }; 
       })
@@ -55,10 +62,23 @@ export class ProfilePage {
     })    
   }
 
+  editProfile(){  
+    this.isReadonly(false)
+  }
+
+  isReadonly(edit){
+    return this.isReadonlyForm = edit;
+  }
+
   logForm() {
+    
+    this.isReadonly(true);
+
     this.afAuth.authState.subscribe(user => {
       if (user!=null){
         
+        console.log(this.userInfoForm.expertLevel.Summary.value)
+
         const formatEducation = {
           Summary: this.userInfoForm.education.Summary, 
           HKU: this.userInfoForm.education.Summary.indexOf("HKU")>-1,
@@ -90,9 +110,9 @@ export class ProfilePage {
 
         const formatExpLevel = {
           Summary: this.userInfoForm.expertLevel.Summary,
-          Primany: this.userInfoForm.expertLevel.Summary.indexOf("Primany School")>-1,
-          SecondaryJunior: this.userInfoForm.expertLevel.Summary.indexOf("Junior Secondary School")>-1,
-          SecondarySenior: this.userInfoForm.expertLevel.Summary.indexOf("Senior Secondary School")>-1,
+          Primary: this.userInfoForm.expertLevel.Summary.indexOf("Primary")>-1,
+          SecondaryJunior: this.userInfoForm.expertLevel.Summary.indexOf("SecondaryJunior")>-1,
+          SecondarySenior: this.userInfoForm.expertLevel.Summary.indexOf("SecondarySenior")>-1,
           University: this.userInfoForm.expertLevel.Summary.indexOf("University")>-1,
         }  
 
@@ -114,6 +134,77 @@ export class ProfilePage {
 
     })    
   }
+
+  
+ProfilePic(event){
+  this.afAuth.authState.subscribe(user => {
+    var fileCaptured = event.target.files[0];
+    console.log(fileCaptured)
+    if (fileCaptured != null){
+      this.base64Converter(fileCaptured).then(data => {
+        this.ImageResize('data:image/jpeg;base64,' + data).then(ResizedImg => {
+            ResizedImg = 'data:image/jpeg;base64,' + ResizedImg 
+            this.afDB.collection("users").doc(user.uid).update({photoURLCustom64: ResizedImg})
+        })
+     })
+    }
+  })
+}
+
+  base64Converter(file){
+    return new Promise((resolve) => {
+      var reader = new FileReader();
+      reader.onload = (event) => {
+        var Base64Img = event.target.result;
+        var ConvertedBase64Img = Base64Img.replace(/^data:image\/(png|jpeg|jpg);base64,/, "")
+        resolve (ConvertedBase64Img)
+      };
+      reader.readAsDataURL(file);
+    })
+  }
+
+ImageResize(fileCaptured){    
+  return new Promise((resolve) => {
+    var img = document.createElement("img");
+    var canvas = document.createElement('canvas')
+    img.src = fileCaptured
+  
+    img.onload = function() {
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var MAX_WIDTH = 800;
+      var MAX_HEIGHT = 600;
+      var width = img.width;
+      var height = img.height;
+
+      if (width <= MAX_WIDTH && height <= MAX_HEIGHT){
+        console.log('No need to resize')
+        var ConvertedBase64Img = fileCaptured.replace(/^data:image\/(png|jpeg|jpg);base64,/, "")
+        resolve (ConvertedBase64Img)
+      } else {
+        console.log('Need to resize')
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        var Base64Img = canvas.toDataURL("image/png");
+        var ConvertedBase64Img = Base64Img.replace(/^data:image\/(png|jpeg|jpg);base64,/, "")
+        resolve (ConvertedBase64Img)
+      }
+    }
+  })
+}
 
 
 }
